@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_csr_reward_kanban" model="ir.ui.view">
+        <field name="name">csr.reward.kanban</field>
+        <field name="model">csr.reward</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="point_cost"/>
+                <field name="description"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="o_kanban_record_subtitle">
+                                    <span class="badge text-bg-primary"><field name="point_cost"/> Points</span>
+                                </div>
+                                <div class="mt-2">
+                                    <field name="description"/>
+                                </div>
+                                <div class="mt-3">
+                                    <button name="action_request_redemption" type="object" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-gift"/> Redeem
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_csr_reward_tree" model="ir.ui.view">
+        <field name="name">csr.reward.list</field>
+        <field name="model">csr.reward</field>
+        <field name="arch" type="xml">
+            <list string="Rewards">
+                <field name="name"/>
+                <field name="point_cost"/>
+                <field name="is_active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_csr_reward_form" model="ir.ui.view">
+        <field name="name">csr.reward.form</field>
+        <field name="model">csr.reward</field>
+        <field name="arch" type="xml">
+            <form string="Reward">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="point_cost"/>
+                        <field name="is_active"/>
+                    </group>
+                    <label for="description"/>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_csr_reward_kanban" model="ir.actions.act_window">
+        <field name="name">Rewards</field>
+        <field name="res_model">csr.reward</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_csr_activity_tree" model="ir.ui.view">
+        <field name="name">csr.activity.list</field>
+        <field name="model">csr.activity</field>
+        <field name="arch" type="xml">
+            <list string="CSR Activities" decoration-success="status == 'approved'" decoration-danger="status == 'rejected'" decoration-info="status == 'submitted'" decoration-muted="status == 'draft'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="date"/>
+                <field name="hours"/>
+                <field name="sdg_category"/>
+                <field name="carbon_offset_estimate"/>
+                <field name="impact_points"/>
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_csr_activity_form" model="ir.ui.view">
+        <field name="name">csr.activity.form</field>
+        <field name="model">csr.activity</field>
+        <field name="arch" type="xml">
+            <form string="CSR Activity">
+                <header>
+                    <button name="action_submit" type="object" string="Submit for Approval" data-hotkey="s" class="oe_highlight" invisible="status != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve" data-hotkey="a" groups="base.group_erp_manager" class="oe_highlight" invisible="status != 'submitted'"/>
+                    <button name="action_reject" type="object" string="Reject" data-hotkey="z" groups="base.group_erp_manager" invisible="status != 'submitted'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="status != 'rejected' or not rejection_reason">
+                        <strong>Rejected:</strong> <field name="rejection_reason" readonly="1"/>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g., Beach Cleanup at Jumeirah"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_profile_id" readonly="1" force_save="1"/>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="hours"/>
+                            <field name="donation_amount"/>
+                            <field name="company_currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <label for="description"/>
+                            <field name="description" placeholder="Describe the activity, what you did, and the impact..."/>
+                            <group>
+                                <field name="proof_document" filename="proof_filename"/>
+                                <field name="proof_filename" invisible="1"/>
+                            </group>
+                        </page>
+                        <page string="Impact &amp; Gamification (Auto-Computed)">
+                            <group>
+                                <field name="sdg_category" readonly="1"/>
+                                <field name="carbon_offset_estimate" readonly="1"/>
+                                <field name="impact_points" readonly="1"/>
+                            </group>
+                            <p class="oe_grey">
+                                The SDG Category, CO₂ Offset, and Impact Points are automatically computed
+                                (or simulated) based on the activity description and hours/donation amount.
+                            </p>
+                        </page>
+                        <page string="Managerial" groups="base.group_erp_manager">
+                            <group>
+                                <label for="rejection_reason"/>
+                                <field name="rejection_reason" placeholder="e.g., Proof of participation is missing." invisible="status != 'submitted'"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_csr_activity_tree" model="ir.actions.act_window">
+        <field name="name">CSR Activities</field>
+        <field name="res_model">csr.activity</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_csr_activity_form_only" model="ir.actions.act_window">
+        <field name="name">Log New Activity</field>
+        <field name="res_model">csr.activity</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'search_default_my_activities': 1, 'default_employee_profile_id': env['csr.employee.profile'].search([('employee_id.user_id', '=', uid)], limit=1).id}</field>
+    </record>
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_csr_opportunity_list" model="ir.ui.view">
+        <field name="name">csr.opportunity.list</field>
+        <field name="model">csr.opportunity</field>
+        <field name="arch" type="xml">
+            <list string="Volunteering Opportunities">
+                <field name="name"/>
+                <field name="ngo"/>
+                <field name="date"/>
+                <field name="location_name"/>
+                <field name="linked_sdg"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_csr_opportunity_form" model="ir.ui.view">
+        <field name="name">csr.opportunity.form</field>
+        <field name="model">csr.opportunity</field>
+        <field name="arch" type="xml">
+            <form string="Volunteering Opportunity">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="ngo"/>
+                        <field name="date"/>
+                        <field name="location_name"/>
+                        <field name="linked_sdg"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_csr_opportunity_tree" model="ir.actions.act_window">
+        <field name="name">Opportunities</field>
+        <field name="res_model">csr.opportunity</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

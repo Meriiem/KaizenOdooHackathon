@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_csr_organization_form" model="ir.ui.view">
+        <field name="name">csr.organization.form</field>
+        <field name="model">csr.organization</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard" create="false" delete="false">
+                <field name="total_approved_activities"/>
+                <field name="total_offset_estimate"/>
+                <field name="department_carbon_budget"/>
+                <field name="current_carbon_used"/>
+                <field name="budget_usage_percentage"/>
+                <field name="recommendation_text"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">Organization CSR Dashboard</div>
+                                </div>
+                                <div class="o_kanban_card_header_buttons">
+                                    <button name="action_refresh_dashboard_metrics" type="object" class="btn btn-primary btn-sm" string="Refresh"/>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="o_stat_info">
+                                            <span class="o_stat_value"><field name="total_approved_activities"/></span>
+                                            <span class="o_stat_text">Total Activities</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="o_stat_info">
+                                            <span class="o_stat_value"><field name="total_offset_estimate" widget="float" digits="[16, 0]"/> <span class="o_stat_text">kg</span></span>
+                                            <span class="o_stat_text">Total CO₂ Offset</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <group>
+                                    <field name="department_carbon_budget" invisible="1"/>
+                                    <field name="current_carbon_used" invisible="1"/>
+                                    <strong>Carbon Budget Usage</strong>
+                                    <field name="budget_usage_percentage" widget="progressbar"/>
+                                </group>
+                                <hr/>
+                                <group string="AI-Generated Recommendations">
+                                    <field name="recommendation_text" widget="html" nolabel="1"/>
+                                </group>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_csr_organization_dashboard_server" model="ir.actions.server">
+        <field name="name">Organization Dashboard</field>
+        <field name="model_id" ref="model_csr_organization"/>
+        <field name="state">code</field>
+        <field name="code">action = env['csr.organization'].action_open_dashboard()</field>
+    </record>
+</odoo>
+<!-- <?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_csr_organization_form" model="ir.ui.view">
+        <field name="name">csr.organization.form</field>
+        <field name="model">csr.organization</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard">
+                <field name="total_approved_activities"/>
+                <field name="total_offset_estimate"/>
+                <field name="department_carbon_budget"/>
+                <field name="current_carbon_used"/>
+                <field name="budget_usage_percentage"/>
+                <field name="recommendation_text"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">Organization CSR Dashboard</div>
+                                </div>
+                                <div class="o_kanban_card_header_buttons">
+                                    <button name="action_refresh_dashboard_metrics" type="object" class="btn btn-primary btn-sm">Refresh</button>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="o_kanban_record_body">
+                                            <div class="o_stat_info">
+                                                <span class="o_stat_value"><field name="total_approved_activities"/></span>
+                                                <span class="o_stat_text">Activities</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="o_kanban_record_body">
+                                            <div class="o_stat_info">
+                                                <span class="o_stat_value"><field name="total_offset_estimate" widget="float"/></span>
+                                                <span class="o_stat_text">CO₂ Offset (kg)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="o_kanban_record_body">
+                                    <div class="o_kanban_record_subtitle">
+                                        <strong>Carbon Budget Usage (Workaround: 0)</strong>
+                                    </div>
+                                    <div class="progress" style="height: 10px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" t-att-style="'width: ' + (record.budget_usage_percentage.raw_value) + '%'" aria-valuenow="record.budget_usage_percentage.raw_value" aria-valuemin="0" aria-valuemax="100"/>
+                                    </div>
+                                    <small class="text-muted"><field name="current_carbon_used"/> kg used of <field name="department_carbon_budget"/> kg total</small>
+                                </div>
+                                <hr/>
+                                <div class="o_kanban_record_body">
+                                    <field name="recommendation_text" widget="html"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_csr_organization_form_only" model="ir.actions.act_window">
+        <field name="name">Organization Dashboard</field>
+        <field name="res_model">csr.organization</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="target">main</field>
+        <field name="context">{'create_singleton_record': True}</field>
+    </record>
+</odoo> -->

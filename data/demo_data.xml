@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <record id="hr_dept_marketing" model="hr.department">
+            <field name="name">Marketing</field>
+        </record>
+        <record id="hr_dept_tech" model="hr.department">
+            <field name="name">Technology</field>
+        </record>
+        
+        <record id="csr_dept_marketing" model="csr.department">
+            <field name="department_id" ref="hr_dept_marketing"/>
+            <field name="carbon_budget">15000.0</field>
+        </record>
+        <record id="csr_dept_tech" model="csr.department">
+            <field name="department_id" ref="hr_dept_tech"/>
+            <field name="carbon_budget">25000.0</field>
+        </record>
+        
+        <record id="employee_demo_sarah" model="hr.employee">
+            <field name="department_id" ref="hr_dept_marketing"/>
+            <field name="name">Sarah Khan (Employee)</field>
+            <field name="work_email">sarah.k@kaizen.com</field>
+            <field name="work_phone">+971501112233</field>
+            </record>
+        
+        <record id="employee_demo_omar" model="hr.employee">
+            <field name="department_id" ref="hr_dept_tech"/>
+            <field name="name">Omar Hassan (Manager)</field>
+            <field name="work_email">omar.h@kaizen.com</field>
+            <field name="work_phone">+971509988776</field>
+            </record>
+
+        <record id="profile_sarah" model="csr.employee.profile">
+            <field name="employee_id" ref="employee_demo_sarah"/>
+        </record>
+
+        <record id="profile_omar" model="csr.employee.profile">
+            <field name="employee_id" ref="employee_demo_omar"/>
+        </record>
+
+        <record id="opportunity_beach_cleanup" model="csr.opportunity">
+            <field name="name">Jumeirah Beach Cleanup Drive</field>
+            <field name="ngo">Life Below Water NGO</field>
+            <field name="date">2025-11-20</field>
+            <field name="location_name">Jumeirah Public Beach</field>
+            <field name="linked_sdg">sdg14</field>
+        </record>
+        <record id="opportunity_tree_planting" model="csr.opportunity">
+            <field name="name">Desert Tree Planting Initiative</field>
+            <field name="ngo">Green Forest Association</field>
+            <field name="date">2025-12-05</field>
+            <field name="location_name">Al Qudra Desert</field>
+            <field name="linked_sdg">sdg15</field>
+        </record>
+        <record id="opportunity_tutor_students" model="csr.opportunity">
+            <field name="name">Online Tutoring for Grade 5 Students</field>
+            <field name="ngo">Education First Charity</field>
+            <field name="date">2025-11-15</field>
+            <field name="location_name">Remote</field>
+            <field name="linked_sdg">sdg4</field>
+        </record>
+
+        <record id="activity_sarah_1" model="csr.activity">
+            <field name="name">Cleaned a polluted section of the canal</field>
+            <field name="employee_profile_id" ref="profile_sarah"/> <field name="date">2025-10-01</field>
+            <field name="hours">8.0</field>
+            <field name="description">Spent a full day cleaning up plastic and debris from the Dubai Marina canal. Focused on removing large nets and microplastics, directly supporting marine life (water/beach keywords).</field>
+            <field name="status">approved</field>
+        </record>
+
+        <record id="activity_sarah_2" model="csr.activity">
+            <field name="name">Planted 10 Ghaf trees</field>
+            <field name="employee_profile_id" ref="profile_sarah"/> <field name="date">2025-10-15</field>
+            <field name="hours">4.0</field>
+            <field name="description">Participated in a regional tree planting event to help with desertification efforts (tree/forest keywords).</field>
+            <field name="status">approved</field>
+        </record>
+        
+        <record id="activity_omar_1" model="csr.activity">
+            <field name="name">Donation to a children's education fund</field>
+            <field name="employee_profile_id" ref="profile_omar"/> <field name="date">2025-09-20</field>
+            <field name="donation_amount">500.0</field>
+            <field name="description">Monthly payroll deduction to support Quality Education for underprivileged students (education/school keywords).</field>
+            <field name="status">approved</field>
+        </record>
+        
+        <record id="activity_sarah_3" model="csr.activity">
+            <field name="name">Weekend tutoring session for a local school</field>
+            <field name="employee_profile_id" ref="profile_sarah"/> <field name="date">2025-11-01</field>
+            <field name="hours">3.0</field>
+            <field name="description">Tutored high school students in advanced mathematics. Uploaded completion certificate (education/school keywords).</field>
+            <field name="status">submitted</field>
+        </record>
+        
+        <record id="activity_omar_2" model="csr.activity">
+            <field name="name">Food drive planning meeting</field>
+            <field name="employee_profile_id" ref="profile_omar"/> <field name="date">2025-11-05</field>
+            <field name="hours">1.5</field>
+            <field name="description">Initial planning session for the company-wide Zero Hunger initiative (SDG 2) (food/hunger keywords).</field>
+            <field name="status">draft</field>
+        </record>
+        
+    </data>
+</odoo>

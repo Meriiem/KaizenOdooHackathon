@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_kaizen_root" name="KAIZEN CSR" sequence="10" web_icon="kaizen_greenflow,static/description/icon.png"/>
+
+    <menuitem id="menu_employee_portal_root" name="Employee Hub" parent="menu_kaizen_root" sequence="10"/>
+    
+    <menuitem id="menu_employee_dashboard" name="My Impact Dashboard" parent="menu_employee_portal_root" 
+              action="action_csr_employee_profile_kanban" sequence="10"/>
+
+    <menuitem id="menu_log_activity" name="Log New Activity" parent="menu_employee_portal_root" 
+              action="action_csr_activity_form_only" sequence="20"/>
+              
+    <menuitem id="menu_opportunities" name="Opportunities" parent="menu_employee_portal_root" 
+              action="action_csr_opportunity_tree" sequence="30"/>
+              
+    <menuitem id="menu_rewards" name="Rewards &amp; Redemption" parent="menu_employee_portal_root" 
+              action="action_csr_reward_kanban" sequence="40"/>
+
+    <menuitem id="menu_organization_root" name="Strategic CSR" parent="menu_kaizen_root" sequence="20" 
+              groups="base.group_erp_manager"/>
+              
+    <menuitem id="menu_organization_dashboard" name="Organization Dashboard" parent="menu_organization_root" 
+              action="action_csr_organization_dashboard_server" sequence="10" groups="base.group_erp_manager"/>
+              
+    <menuitem id="menu_activity_validation" name="Activity Validation" parent="menu_organization_root" 
+              action="action_csr_activity_tree" sequence="20" groups="base.group_erp_manager"/>
+              
+    <menuitem id="menu_department_budgets" name="Department Carbon Budgets" parent="menu_organization_root" 
+              action="action_csr_department_tree" sequence="25" groups="base.group_erp_manager"/>
+              
+    <menuitem id="menu_employee_leaderboard" name="Company Leaderboard" parent="menu_organization_root" 
+              action="action_csr_employee_profile_tree" sequence="30"/>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_csr_department_tree" model="ir.ui.view">
+        <field name="name">csr.department.list</field>
+        <field name="model">csr.department</field>
+        <field name="arch" type="xml">
+            <list string="Department Carbon Budgets">
+                <field name="department_id"/>
+                <field name="carbon_budget"/>
+                <field name="total_carbon_offset"/>
+                <field name="carbon_used"/>
+                <field name="budget_usage_percentage" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_csr_department_form" model="ir.ui.view">
+        <field name="name">csr.department.form</field>
+        <field name="model">csr.department</field>
+        <field name="arch" type="xml">
+            <form string="Department Carbon Budget">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="department_id" readonly="1" force_save="1"/>
+                            <field name="carbon_budget"/>
+                        </group>
+                        <group>
+                            <field name="total_carbon_offset" readonly="1"/>
+                            <field name="carbon_used" readonly="1"/>
+                            <field name="budget_usage_percentage" widget="progressbar" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_csr_department_tree" model="ir.actions.act_window">
+        <field name="name">Department Carbon Budgets</field>
+        <field name="res_model">csr.department</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

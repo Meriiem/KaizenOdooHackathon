@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="reward_impact_day" model="csr.reward">
+            <field name="name">Extra Paid Impact Day Off</field>
+            <field name="point_cost">500</field>
+            <field name="description">Redeem 500 Impact Points for an extra paid day off to volunteer or rest. Managers will be notified for approval.</field>
+        </record>
+        <record id="reward_premium_mug" model="csr.reward">
+            <field name="name">Premium Reusable Coffee Mug</field>
+            <field name="point_cost">100</field>
+            <field name="description">A high-quality, sustainable coffee mug to reduce disposable waste.</field>
+        </record>
+        <record id="reward_donation_match" model="csr.reward">
+            <field name="name">100 AED Donation Match</field>
+            <field name="point_cost">250</field>
+            <field name="description">The company will match your next 100 AED donation to a pre-approved NGO.</field>
+        </record>
+    </data>
+</odoo>
