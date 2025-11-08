@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError # Import ValidationError
+from dateutil.relativedelta import relativedelta
 
 class CSREmployeeProfile(models.Model):
     _name = 'csr.employee.profile'
@@ -22,9 +23,14 @@ class CSREmployeeProfile(models.Model):
     
     activity_ids = fields.One2many('csr.activity', 'employee_profile_id', string="CSR Activities")
     
-    rank_display = fields.Char(string="Current Rank", compute='_compute_rank', store=False)
+    rank_display = fields.Char(string="Current Rank (Total Points)", compute='_compute_rank', store=False)
+    improvement_rank_display = fields.Char(string="Rank (Improvement)", compute='_compute_rank', store=False)
+    
+    # Fields for improvement calculation
+    last_quarter_points = fields.Integer(string="Last Quarter Points", compute='_compute_last_quarter_points', store=True)
+    point_improvement = fields.Integer(string="Point Improvement", compute='_compute_point_improvement', store=True)
 
-    @api.depends('activity_ids')
+    @api.depends('activity_ids.status', 'activity_ids.impact_points', 'activity_ids.hours', 'activity_ids.donation_amount')
     def _compute_csr_metrics(self):
         for employee_profile in self:
             approved_activities = employee_profile.activity_ids.filtered(lambda r: r.status == 'approved')
@@ -32,25 +38,48 @@ class CSREmployeeProfile(models.Model):
             employee_profile.donation_amount = sum(approved_activities.mapped('donation_amount'))
             employee_profile.total_impact_points = sum(approved_activities.mapped('impact_points'))
 
-    # --- THIS IS THE PYTHON FIX ---
-    #
-    # The compute method _compute_rank (store=False) was depending on
-    # _compute_csr_metrics (store=True) via 'total_impact_points'.
-    # This creates a complex dependency chain at load time which breaks the registry.
-    # By changing the dependency to 'activity_ids' (the same as _compute_csr_metrics),
-    # we break the circular chain.
-    #
-    @api.depends('activity_ids')
+    @api.depends('activity_ids.date', 'activity_ids.impact_points', 'activity_ids.status')
+    def _compute_last_quarter_points(self):
+        today = fields.Date.today()
+        # Calculate the start and end date of the previous quarter
+        # Simple approximation: 90 days ago to 180 days ago
+        end_date = today - relativedelta(days=90)
+        start_date = today - relativedelta(days=180)
+
+        for employee_profile in self:
+            last_quarter_activities = employee_profile.activity_ids.filtered(lambda r: r.status == 'approved' and r.date and start_date <= r.date < end_date)
+            employee_profile.last_quarter_points = sum(last_quarter_activities.mapped('impact_points'))
+
+    @api.depends('total_impact_points', 'last_quarter_points')
+    def _compute_point_improvement(self):
+        for employee_profile in self:
+            # Improvement is current total points minus last quarter's points
+            employee_profile.point_improvement = employee_profile.total_impact_points - employee_profile.last_quarter_points
+
+    # --- FIX ---
+    # 1. Removed the duplicate _compute_rank method.
+    # 2. Changed dependencies to point to source 'activity_ids' fields.
+    #    This prevents a circular dependency (store=False compute depending on store=True compute).
+    # 3. Added manual calls to upstream computes to ensure data is fresh for ranking.
+    @api.depends('activity_ids.status', 'activity_ids.impact_points', 'activity_ids.date')
     def _compute_rank(self):
-        # We must re-call the compute manually to ensure points are up-to-date
-        # for the ranking calculation, as Odoo might run this compute first.
-        self._compute_csr_metrics() 
+        # Manually trigger upstream computes to ensure data is fresh
+        # (Odoo might run this store=False compute first)
+        self._compute_csr_metrics()
+        self._compute_last_quarter_points()
+        self._compute_point_improvement()
         
-        sorted_profiles = self.env['csr.employee.profile'].search([], order='total_impact_points desc')
-        rank_map = {profile.id: rank + 1 for rank, profile in enumerate(sorted_profiles)}
+        # 1. Rank by Total Points
+        sorted_profiles_total = self.env['csr.employee.profile'].search([], order='total_impact_points desc')
+        rank_map_total = {profile.id: rank + 1 for rank, profile in enumerate(sorted_profiles_total)}
+        
+        # 2. Rank by Improvement
+        sorted_profiles_improvement = self.env['csr.employee.profile'].search([], order='point_improvement desc')
+        rank_map_improvement = {profile.id: rank + 1 for rank, profile in enumerate(sorted_profiles_improvement)}
         
         for profile in self:
-            profile.rank_display = f"#{rank_map.get(profile.id, 'N/A')}"
+            profile.rank_display = f"#{rank_map_total.get(profile.id, 'N/A')}"
+            profile.improvement_rank_display = f"#{rank_map_improvement.get(profile.id, 'N/A')}"
             
     @api.constrains('employee_id')
     def _check_employee_id_unique(self):

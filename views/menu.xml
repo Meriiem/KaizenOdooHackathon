@@ -20,7 +20,7 @@
               groups="base.group_erp_manager"/>
               
     <menuitem id="menu_organization_dashboard" name="Organization Dashboard" parent="menu_organization_root" 
-              action="action_csr_organization_dashboard_server" sequence="10" groups="base.group_erp_manager"/>
+              action="action_csr_organization_dashboard" sequence="10" groups="base.group_erp_manager"/>
               
     <menuitem id="menu_activity_validation" name="Activity Validation" parent="menu_organization_root" 
               action="action_csr_activity_tree" sequence="20" groups="base.group_erp_manager"/>
