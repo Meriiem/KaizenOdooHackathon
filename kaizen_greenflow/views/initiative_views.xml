@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_initiative_list" model="ir.ui.view">
+        <field name="name">csr.initiative.list</field>
+        <field name="model">csr.initiative</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="target_value"/>
+                <field name="unit"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_initiative_form" model="ir.ui.view">
+        <field name="name">csr.initiative.form</field>
+        <field name="model">csr.initiative</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="program_id"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="target_value"/>
+                            <field name="unit"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_csr_initiatives" model="ir.actions.act_window">
+        <field name="name">CSR Initiatives</field>
+        <field name="res_model">csr.initiative</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

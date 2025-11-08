@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_csr_root" name="CSR Tracker" sequence="10"/>
+    <menuitem id="menu_csr_programs" name="Programs" 
+              parent="menu_csr_root" 
+              action="action_csr_programs" sequence="10"/>
+    <!-- NEW: Initiatives Menu -->
+    <menuitem id="menu_csr_initiatives" name="Initiatives" 
+              parent="menu_csr_root" 
+              action="action_csr_initiatives" sequence="20"/>
+</odoo>

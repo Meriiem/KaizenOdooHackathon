@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_program_list" model="ir.ui.view">
+        <field name="name">csr.program.list</field>
+        <field name="model">csr.program</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="status"/>
+                <field name="initiative_count" string="# Initiatives"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_program_form" model="ir.ui.view">
+        <field name="name">csr.program.form</field>
+        <field name="model">csr.program</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="category"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="initiative_count" string="Initiatives" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    
+                    <!-- SIMPLIFIED Initiatives Notebook Page -->
+                    <notebook>
+                        <page string="Initiatives">
+                            <field name="initiative_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_csr_programs" model="ir.actions.act_window">
+        <field name="name">CSR Programs</field>
+        <field name="res_model">csr.program</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
