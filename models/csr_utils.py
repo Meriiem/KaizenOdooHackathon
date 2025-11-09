@@ -3,7 +3,6 @@ import requests
 import json
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from openai import OpenAI
 import logging  
 
 # Get the logger
