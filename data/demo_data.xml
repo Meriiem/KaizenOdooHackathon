@@ -59,6 +59,12 @@
             <field name="work_email">sarah.k@kaizen.com</field>
             <field name="work_phone">+971501112233</field>
         </record>
+        <record id="employee_demo_safa" model="hr.employee">
+            <field name="department_id" ref="hr_dept_tech"/>
+            <field name="name">Safa Umar (Employee)</field>
+            <field name="work_email">safa.k@kaizen.com</field>
+            <field name="work_phone">+971501332233</field>
+        </record>
         <record id="employee_demo_omar" model="hr.employee">
             <field name="department_id" ref="hr_dept_tech"/>
             <field name="name">Omar Hassan (Manager)</field>
@@ -322,6 +328,23 @@
             <field name="description">Organized and led D&amp;I training session for local SMEs to promote inclusive workplace practices.</field>
             <field name="status">submitted</field>
         </record>
+        <record id="activity_fatima_3" model="csr.activity">
+            <field name="name">Desert CleanUp</field>
+            <field name="employee_profile_id" ref="profile_fatima"/>
+            <field name="date">2025-11-08</field>
+            <field name="hours">5.0</field>
+            <field name="description">Participated in Desert CleanUp where we picked up trash from Al Qudra Desert</field>
+            <field name="status">submitted</field>
+        </record>
+        <record id="activity_safa_1" model="csr.activity">
+            <field name="name">Recycling Drive</field>
+            <field name="employee_profile_id" ref="profile_safa"/>
+            <field name="date">2025-11-28</field>
+            <field name="hours">2.0</field>
+            <field name="description">Collected recyclables from neigbourhood and dropped them at the designated rycling centre</field>
+            <field name="status">submitted</field>
+        </record>
+            
 
     </data>
 </odoo>
